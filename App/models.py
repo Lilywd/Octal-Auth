@@ -29,7 +29,7 @@ class UserManager(BaseUserManager):
         return user
 
 
-class CustomUser(AbstractBaseUser, PermissionsMixin):
+class User(AbstractBaseUser, PermissionsMixin):
     ROLES = (
         ('teacher', 'Teacher'),
         ('parent', 'Parent'),
