@@ -164,14 +164,14 @@ REST_FRAMEWORK = {
 
 
 SIMPLE_JWT = {
-    "AUTH_HEADER_TYPES": ("JWT",),
+    "AUTH_HEADER_TYPES": ("Bearer",),
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
 }
 
 # DJOSER CONFIG
-DJOSER = {
+DJOSER = { 
     "LOGIN_FIELD": "email",
     "USER_CREATE_PASSWORD_RETYPE": True,
     "USERNAME_CHANGED_EMAIL_CONFIRMATION": True,
@@ -185,10 +185,10 @@ DJOSER = {
     "SEND_ACTIVATION_EMAIL": True,
     "SOCIAL_AUTH_TOKEN_STRATEGY": "djoser.social.token.jwt.TokenStrategy",
     "SOCIAL_AUTH_ALLOWED_REDIRECT_URIS": [
-        'http://127.0.0.1:5173', 'http://127.0.0.1:5173/','http://127.0.0.1:5173/login'
+        'http://127.0.0.1:8000', 'http://127.0.0.1:8000/','http://127.0.0.1:8000/signin'
     ],
     "SERIALIZERS": {
-        "user_create": "users.serializers.UserCreateSerializer",  # custom serializer
+        "user_create": "App.serializers.UserCreateSerializer",  # custom serializer
         "user": "djoser.serializers.UserSerializer",
         "current_user": "djoser.serializers.UserSerializer",
         "user_delete": "djoser.serializers.UserSerializer",
