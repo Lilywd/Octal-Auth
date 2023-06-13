@@ -7,11 +7,15 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 class UserManager(BaseUserManager):
     #Method to create a regular user
-    def create_user(self, email, phone_number, username, password=None, **extra_fields):
-        # Check if user email is provided
+    def _create_user(self, email, phone_number, username, password, **extra_fields):
+        # Check if user email and password is provided
         if not email:
             raise ValueError("Users must have an email")
+        if not password:
+            raise ValueError("Password must be provided")
+
         # Normalize user email
+       
         email = self.normalize_email(email)
         # Create and save the user
         user = self.model(email=email, username=username,phone_number=phone_number,  **extra_fields)
@@ -19,18 +23,26 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
     
+    def create_user(self, **extra_fields):
+        extra_fields.setdefault('is_staff',False)
+        extra_fields.setdefault('is_active',True)
+        extra_fields.setdefault('is_superuser',False)
+        extra_fields.setdefault('is_admin',False)
+        extra_fields.setdefault('is_subscribed',False)
+        return self._create_user( **extra_fields)
+    
     # Method to create a superuser
-    def create_superuser(self, username, email,phone_number, password=None, **extra_fields):
-        user = self.create_user(username, email,phone_number, password=password, **extra_fields)
-        user.is_active = True
-        user.is_staff = True
-        user.is_admin = True
-        user.save(using=self._db)
-        return user
-
+    def create_superuser(self, **extra_fields):
+        extra_fields.setdefault('is_subscribed',True)
+        extra_fields.setdefault('is_staff',True)
+        extra_fields.setdefault('is_active',True)
+        extra_fields.setdefault('is_admin',True)
+        extra_fields.setdefault('is_superuser',True)
+        return self._create_user( **extra_fields)
 
 class User(AbstractBaseUser, PermissionsMixin):
     ROLES = (
+     
         ('teacher', 'Teacher'),
         ('parent', 'Parent'),
         ('student', 'Student'),
@@ -46,6 +58,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
+    is_subscribed = models.BooleanField(default=False)
 
     objects = UserManager()
 

@@ -188,7 +188,7 @@ DJOSER = {
         'http://127.0.0.1:8000', 'http://127.0.0.1:8000/','http://127.0.0.1:8000/signin'
     ],
     "SERIALIZERS": {
-        "user_create": "App.serializers.UserCreateSerializer",  # custom serializer
+        "user_create": "App.serializers.UserCreateSerializer",  
         "user": "djoser.serializers.UserSerializer",
         "current_user": "djoser.serializers.UserSerializer",
         "user_delete": "djoser.serializers.UserSerializer",
